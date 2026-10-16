@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Charter.Y</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<div class="app">
+
+<div class="topbar">
+  <div class="logo">charter<span>.y</span></div>
+  <div class="top-right">
+    <div class="nav-desk" id="navDesk">
+      <button data-p="home" class="on">Beranda</button>
+      <button data-p="download">Downloader</button>
+      <button data-p="ai">AI</button>
+      <button data-p="profile">Profil</button>
+    </div>
+    <div class="topbar-icon">
+      <button onclick="go('masuk')" aria-label="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button onclick="go('masuk')" aria-label="chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- HOME -->
+<section class="page on" id="page-home">
+  <div class="hero-banner">
+    <small>CHARTER.Y V2</small>
+    <h1>Download TikTok <i>no watermark</i>, chat AI, mabar sosmed.</h1>
+    <button class="btn-black" onclick="go('download')">Coba Downloader</button>
+    <div class="hero-stats">
+      <div><b>12K+</b> Video didownload</div>
+      <div><b>AI</b> Online 24 jam</div>
+    </div>
+  </div>
+
+  <div class="section-title">Fitur utama <span>Baru</span></div>
+  <div style="display:grid;gap:10px">
+    <div class="card-link" onclick="go('download')">
+      <div class="icon">↓</div>
+      <div><b>Downloader TikTok</b><p>MP4 no WM & MP3 langsung</p></div>
+    </div>
+    <div class="card-link" onclick="go('ai')">
+      <div class="icon cy">✦</div>
+      <div><b>Charter AI</b><p>Ngobrol tanpa keluar aplikasi</p></div>
+    </div>
+    <div class="card-link" onclick="go('profile')">
+      <div class="icon" style="background:#fff;color:#111;border:1px solid #eee">☺</div>
+      <div><b>Profil & Follback</b><p>Follow, follback, saling support</p></div>
+    </div>
+  </div>
+
+  <div class="section-title">Buat kamu</div>
+  <div class="feed">
+    <div class="post">
+      <div class="post-head">
+        <img src="https://i.pravatar.cc/100?img=32">
+        <div><b>sinta.dwi</b><span>2 jam lalu • Bandung</span></div>
+        <span class="follow">Follow</span>
+      </div>
+      <img class="thumb" src="https://picsum.photos/600/400?random=1">
+      <div class="post-body">
+        <p>Preset preset an lagi viral nih, langsung download aja di Charter.Y biar gak kena watermark</p>
+        <div class="meta">♡ 1.204 &nbsp; 💬 89 &nbsp; ↻ 210</div>
+      </div>
+    </div>
+    <div class="post">
+      <div class="post-head">
+        <img src="https://i.pravatar.cc/100?img=12">
+        <div><b>rizky.rr</b><span>5 jam lalu</span></div>
+        <span class="follow">Follow</span>
+      </div>
+      <img class="thumb" src="https://picsum.photos/600/400?random=2">
+      <div class="post-body">
+        <p>Testimoni downloader Charter.Y, beneran bersih tanpa watermark.</p>
+        <div class="meta">♡ 892 &nbsp; 💬 45</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MASUK (ganti /masuk.html) -->
+<section class="page" id="page-masuk">
+  <div class="dl-wrap">
+    <div class="dl-box">
+      <h2>Masuk Charter.Y</h2>
+      <p>Isi username kamu biar profil langsung aktif.</p>
+      <input id="loginUser" placeholder="Username (contoh: budi.123)">
+      <input id="loginPass" type="password" placeholder="Password">
+      <button onclick="doLogin()">Masuk</button>
+      <p style="font-size:12px;text-align:center;margin-top:10px;color:#777">Belum punya akun? Klik Masuk aja langsung jadi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOADER -->
+<section class="page" id="page-download">
+  <div class="dl-wrap">
+    <div class="dl-box">
+      <h2>Downloader TikTok</h2>
+      <p>Paste link video TikTok, nanti kita ambil file bersihnya.</p>
+      <input id="link" placeholder="https://vt.tiktok.com/ atau https://www.tiktok.com/@...">
+      <button id="fetchB">Download</button>
+      <div class="error" id="err"></div>
+      <div class="result" id="res">
+        <video id="rv" controls playsinline></video>
+        <h3 id="rt"></h3>
+        <div class="author" id="rm"></div>
+        <div class="dl-actions">
+          <a id="dmp4" target="_blank">MP4 No WM</a>
+          <a id="dmp3" target="_blank">MP3</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI -->
+<section class="page" id="page-ai">
+  <div class="ai-wrap">
+    <div class="ai-head">
+      <div class="ai-avatar">Y</div>
+      <div><b>Charter AI</b><span>● Online - balas cepat</span></div>
+    </div>
+    <div class="ai-frame">
+      <iframe id="aiFrame" title="AI"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section class="page" id="page-profile">
+  <div class="profile-top">
+    <div class="cover"><img src="https://picsum.photos/800/300?random=10"></div>
+    <img class="avatar" id="avatar" src="https://i.pravatar.cc/150?img=68">
+    <div class="profile-info">
+      <h2 id="pName">Charter User</h2>
+      <div class="username" id="pUser">@charter.y</div>
+      <p class="bio" id="pBio">Bandung. Suka ngulik preset & video. Admin Charter.Y</p>
+      <div class="profile-meta"><span>Bandung</span><span>charter.y</span></div>
+      <div class="profile-stats">
+        <div><b>12</b> <span>Post</span></div>
+        <div style="cursor:pointer" onclick="openFollow('followers')"><b id="sFollowers">1,2rb</b> <span>Pengikut</span></div>
+        <div style="cursor:pointer" onclick="openFollow('following')"><b id="sFollowing">180</b> <span>Mengikuti</span></div>
+      </div>
+      <button class="btn-edit" id="editBtn">Edit profil</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="on">Postingan</button>
+    <button onclick="openFollow('followers')">Pengikut</button>
+    <button onclick="openFollow('following')">Mengikuti</button>
+  </div>
+  <div class="post-grid">
+    <img src="https://picsum.photos/300/300?random=21">
+    <img src="https://picsum.photos/300/300?random=22">
+    <img src="https://picsum.photos/300/300?random=23">
+    <img src="https://picsum.photos/300/300?random=24">
+    <img src="https://picsum.photos/300/300?random=25">
+    <img src="https://picsum.photos/300/300?random=26">
+  </div>
+
+  <div class="section-title">Saran buat kamu</div>
+  <div class="people" id="people"></div>
+</section>
+
+</div>
+
+<div class="bottom">
+  <button data-p="home" class="on">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    Beranda
+  </button>
+  <button data-p="download">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Download
+  </button>
+  <button data-p="ai">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    AI
+  </button>
+  <button data-p="profile">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Profil
+  </button>
+</div>
+
+<div class="modal" id="followModal">
+  <div class="sheet">
+    <h3 id="followTitle" style="margin-bottom:10px">Pengikut</h3>
+    <div id="followList"></div>
+    <button class="btn-close" onclick="closeFollow()">Tutup</button>
+  </div>
+</div>
+
+<div class="modal" id="editModal">
+  <div class="sheet">
+    <h3>Edit Profil</h3>
+    <label>Nama</label><input id="fName">
+    <label>Username</label><input id="fUser">
+    <label>Bio</label><textarea id="fBio" rows="3"></textarea>
+    <div class="row-btn">
+      <button class="btn-ghost" onclick="closeEdit()">Batal</button>
+      <button class="btn-black" onclick="saveEdit()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
